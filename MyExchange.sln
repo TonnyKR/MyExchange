@@ -1,0 +1,59 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.32112.339
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyExchange.API", "MyExchange\MyExchange.API.csproj", "{7A024583-6D7C-46CF-916A-3C09F975610D}"
+	ProjectSection(ProjectDependencies) = postProject
+		{34D3F49E-651B-4D13-9C32-2434C531AF46} = {34D3F49E-651B-4D13-9C32-2434C531AF46}
+		{94A169D1-42E3-4059-85E4-C7257C8022C9} = {94A169D1-42E3-4059-85E4-C7257C8022C9}
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyExchange.Domain", "MyExchange.Domain\MyExchange.Domain.csproj", "{34D3F49E-651B-4D13-9C32-2434C531AF46}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyExchange.Data", "MyExchange.Data\MyExchange.Data.csproj", "{94A169D1-42E3-4059-85E4-C7257C8022C9}"
+	ProjectSection(ProjectDependencies) = postProject
+		{34D3F49E-651B-4D13-9C32-2434C531AF46} = {34D3F49E-651B-4D13-9C32-2434C531AF46}
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyExchange.BusinessLogic", "MyExchange.BusinessLogic\MyExchange.BusinessLogic.csproj", "{8254C5E0-12C4-4A09-9468-409896F01C60}"
+	ProjectSection(ProjectDependencies) = postProject
+		{94A169D1-42E3-4059-85E4-C7257C8022C9} = {94A169D1-42E3-4059-85E4-C7257C8022C9}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyExchange.Common", "MyExchange.Common\MyExchange.Common.csproj", "{2F2F1FE2-E90E-4B20-BEE8-1C8B9BACE5CB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7A024583-6D7C-46CF-916A-3C09F975610D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7A024583-6D7C-46CF-916A-3C09F975610D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7A024583-6D7C-46CF-916A-3C09F975610D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7A024583-6D7C-46CF-916A-3C09F975610D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{34D3F49E-651B-4D13-9C32-2434C531AF46}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{34D3F49E-651B-4D13-9C32-2434C531AF46}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{34D3F49E-651B-4D13-9C32-2434C531AF46}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{34D3F49E-651B-4D13-9C32-2434C531AF46}.Release|Any CPU.Build.0 = Release|Any CPU
+		{94A169D1-42E3-4059-85E4-C7257C8022C9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{94A169D1-42E3-4059-85E4-C7257C8022C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{94A169D1-42E3-4059-85E4-C7257C8022C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{94A169D1-42E3-4059-85E4-C7257C8022C9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8254C5E0-12C4-4A09-9468-409896F01C60}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8254C5E0-12C4-4A09-9468-409896F01C60}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8254C5E0-12C4-4A09-9468-409896F01C60}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8254C5E0-12C4-4A09-9468-409896F01C60}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2F2F1FE2-E90E-4B20-BEE8-1C8B9BACE5CB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2F2F1FE2-E90E-4B20-BEE8-1C8B9BACE5CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2F2F1FE2-E90E-4B20-BEE8-1C8B9BACE5CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2F2F1FE2-E90E-4B20-BEE8-1C8B9BACE5CB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B2E83E7C-3828-4F57-BA47-A2C9334C166E}
+	EndGlobalSection
+EndGlobal
