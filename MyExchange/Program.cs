@@ -13,16 +13,14 @@ startup.Configure(webApplication, webApplication.Environment);
 
 await webApplication.RunAsync();
 
-//Null reference dependant entities?
-//IRepository Expression ?
-//Common зачем?
-//Переименовать BaseId?
-
 //TODO
-//Statistic and position logic
-//-Add Authorization
-//-Add Transactions handling
-//-Add Global Exception handling
+//Validation
 
 
-//AddScoped?
+//Questions
+//Null reference dependant entities
+//IRepository Expression
+//Update bank card and other nonsense crud
+//Default properties
+//WalletsPromoCode interaction?
+//Controllers return

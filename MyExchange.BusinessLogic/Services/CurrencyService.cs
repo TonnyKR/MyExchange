@@ -2,7 +2,7 @@
 using MyExchange.BusinessLogic.Interfaces;
 using MyExchange.Common.Dtos.Currency;
 using MyExchange.Data.Interfaces;
-using MyExchange.Domain.Entities;
+using MyExchange.Data.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -49,12 +49,13 @@ namespace MyExchange.BusinessLogic.Services
         {
             var currency = await _repository.GetById<Currency>(id);
             var currencyDto = _mapper.Map<CurrencyDto>(currency);
-            return currencyDto;        }
+            return currencyDto;
+        }
 
-        public async Task UpdateCurrency(int id, CurrencyDto currencyDto)
+        public async Task UpdateCurrency(int id, CurrencyUpdateDto currencyUpdateDto)
         {
             var currency = await _repository.GetById<Currency>(id);
-            _mapper.Map(currencyDto, currency);
+            _mapper.Map(currencyUpdateDto, currency);
             await _repository.SaveChangesAsync();
         }
     }

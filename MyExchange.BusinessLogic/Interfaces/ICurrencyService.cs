@@ -13,7 +13,7 @@ namespace MyExchange.BusinessLogic.Interfaces
         Task<IEnumerable<CurrencyDto>> GetAllCurrencies();
         Task<CurrencyDto> CreateCurrency(CurrencyDto currencyDto);
 
-        Task UpdateCurrency(int id, CurrencyDto currencyDto);
+        Task UpdateCurrency(int id, CurrencyUpdateDto currencyUpdateDto);
 
         Task DeleteCurrency(int id);
     }

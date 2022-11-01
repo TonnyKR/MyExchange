@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.Extensions.Configuration;
-using MyExchange.Domain.Entities;
+using MyExchange.Data.Entities;
 
 namespace MyExchange.Data.Configurations
 {
@@ -21,6 +21,7 @@ namespace MyExchange.Data.Configurations
             builder.Property(x => x.Password).HasMaxLength(50).IsRequired();
             builder.Property(x => x.Email).HasMaxLength(50).IsRequired();
             builder.Property(x => x.PhoneNumber).HasMaxLength(12);
+            builder.HasMany(d => d.Wallets).WithOne(p => p.User).OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

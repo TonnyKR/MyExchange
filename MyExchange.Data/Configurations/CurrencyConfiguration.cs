@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MyExchange.Domain.Entities;
+using MyExchange.Data.Entities;
 
 namespace MyExchange.Data.Configurations
 {
@@ -19,6 +19,8 @@ namespace MyExchange.Data.Configurations
             builder.Property(c => c.PriceUsd).IsRequired().HasColumnType("decimal(38,19)");
             builder.Property(c=> c.ShortName).IsRequired().HasMaxLength(10);
             builder.Property(c => c.MarketType).IsRequired().HasMaxLength(10);
+            builder.HasMany(w => w.WalletPositions).WithOne(c => c.Currency);
+            builder.HasMany(p => p.PromoCodes).WithOne(c => c.Currency);
         }
     }
 }

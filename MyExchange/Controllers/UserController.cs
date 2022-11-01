@@ -2,7 +2,7 @@
 using MyExchange.BusinessLogic.Interfaces;
 using MyExchange.Common.Dtos.User;
 using MyExchange.Data.Repository;
-using MyExchange.Domain.Entities;
+using MyExchange.Data.Entities;
 
 namespace MyExchange.API.Controllers
 {
@@ -10,10 +10,12 @@ namespace MyExchange.API.Controllers
     public class UserController :BaseController
     {
         private readonly IUserService _userService;
+        private readonly IWalletService _walletService;
 
-        public UserController(IUserService userService)
+        public UserController(IUserService userService, IWalletService walletService)
         {
             _userService = userService;
+            _walletService = walletService;
         }
 
 
@@ -35,7 +37,7 @@ namespace MyExchange.API.Controllers
         public async Task<IActionResult> CreateUser(UserDto userDto)
         {
             var _userDto = await _userService.CreateUser(userDto);
-
+            var walletDto = await _walletService.CreateDefaultWallet(_userDto);
             return CreatedAtAction(nameof(GetUser), new { id = _userDto.Id }, _userDto);
         }
 

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MyExchange.Domain.Entities;
+using MyExchange.Data.Entities;
 using MyExchange.Common.Dtos.User;
 
 namespace MyExchange.BusinessLogic.Profiles

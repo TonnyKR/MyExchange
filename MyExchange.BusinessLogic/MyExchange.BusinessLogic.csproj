@@ -11,9 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\MyExchange.Common\MyExchange.Common.csproj" />
     <ProjectReference Include="..\MyExchange.Data\MyExchange.Data.csproj" />
-    <ProjectReference Include="..\MyExchange.Domain\MyExchange.Domain.csproj" />
   </ItemGroup>
 
 </Project>

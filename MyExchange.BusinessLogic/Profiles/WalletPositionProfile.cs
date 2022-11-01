@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using MyExchange.Common.Dtos.WalletPosition;
-using MyExchange.Domain.Entities;
+using MyExchange.Data.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;

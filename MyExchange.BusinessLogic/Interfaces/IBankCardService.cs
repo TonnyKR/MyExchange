@@ -13,7 +13,7 @@ namespace MyExchange.BusinessLogic.Interfaces
 
         Task<BankCardDto> CreateBankCard(BankCardDto bankCardDto);
 
-        Task UpdateBankCard(int id, BankCardDto bankCardDto);
+        //Task UpdateBankCard(int id, BankCardDto bankCardDto);
 
         Task DeleteBankCard(int id);
     }

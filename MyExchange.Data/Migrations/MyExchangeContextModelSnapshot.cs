@@ -22,13 +22,34 @@ namespace MyExchange.Data.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
-            modelBuilder.Entity("MyExchange.Domain.Entities.BankCard", b =>
+            modelBuilder.Entity("MyExchange.Data.Entities.Bank", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id")
+                        .HasName("BankId");
+
+                    b.ToTable("Bank");
+                });
+
+            modelBuilder.Entity("MyExchange.Data.Entities.BankCard", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("BankId")
+                        .HasColumnType("int");
 
                     b.Property<int>("Cvv")
                         .HasMaxLength(3)
@@ -41,18 +62,20 @@ namespace MyExchange.Data.Migrations
                     b.Property<DateTime>("TerminalDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("UserId")
+                    b.Property<int>("WalletId")
                         .HasColumnType("int");
 
                     b.HasKey("Id")
                         .HasName("BankCardId");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("BankId");
+
+                    b.HasIndex("WalletId");
 
                     b.ToTable("BankCards");
                 });
 
-            modelBuilder.Entity("MyExchange.Domain.Entities.Currency", b =>
+            modelBuilder.Entity("MyExchange.Data.Entities.Currency", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -84,7 +107,29 @@ namespace MyExchange.Data.Migrations
                     b.ToTable("Currencies");
                 });
 
-            modelBuilder.Entity("MyExchange.Domain.Entities.User", b =>
+            modelBuilder.Entity("MyExchange.Data.Entities.PromoCode", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("CurrencyId")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("DiscountPercent")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("Id")
+                        .HasName("PromoCodeId");
+
+                    b.HasIndex("CurrencyId");
+
+                    b.ToTable("PromoCode");
+                });
+
+            modelBuilder.Entity("MyExchange.Data.Entities.User", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -117,7 +162,7 @@ namespace MyExchange.Data.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("MyExchange.Domain.Entities.Wallet", b =>
+            modelBuilder.Entity("MyExchange.Data.Entities.Wallet", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -125,49 +170,39 @@ namespace MyExchange.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<decimal>("Balance")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("TotalClosedMargin")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("TotalCurrentCapital")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("TotalCurrentMargin")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("TotalEnrolment")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("TotalWithdrawl")
+                        .HasColumnType("decimal(18,2)");
+
                     b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("WalletType")
                         .HasColumnType("int");
 
                     b.HasKey("Id")
                         .HasName("WalletId");
 
-                    b.HasIndex("UserId")
-                        .IsUnique();
+                    b.HasIndex("UserId");
 
                     b.ToTable("Wallets");
                 });
 
-            modelBuilder.Entity("MyExchange.Domain.Entities.WalletBalance", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<decimal>("UAH")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("decimal(38,19)")
-                        .HasDefaultValue(0m);
-
-                    b.Property<decimal>("USD")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("decimal(38,19)")
-                        .HasDefaultValue(0m);
-
-                    b.Property<int>("WalletId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id")
-                        .HasName("WalletBalanceId");
-
-                    b.HasIndex("WalletId")
-                        .IsUnique();
-
-                    b.ToTable("WalletBalance");
-                });
-
-            modelBuilder.Entity("MyExchange.Domain.Entities.WalletPosition", b =>
+            modelBuilder.Entity("MyExchange.Data.Entities.WalletPosition", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -208,7 +243,7 @@ namespace MyExchange.Data.Migrations
                     b.ToTable("WalletPositions");
                 });
 
-            modelBuilder.Entity("MyExchange.Domain.Entities.WalletStatistic", b =>
+            modelBuilder.Entity("MyExchange.Data.Entities.WalletsPromoCodes", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -216,47 +251,56 @@ namespace MyExchange.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<decimal>("TotalAmoundEnrollment")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("decimal(38,19)")
-                        .HasDefaultValue(0m);
-
-                    b.Property<decimal>("TotalAmoundWithdrawl")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("decimal(38,19)")
-                        .HasDefaultValue(0m);
-
-                    b.Property<decimal>("TotalClosedMargin")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("decimal(38,19)")
-                        .HasDefaultValue(0m);
-
-                    b.Property<decimal>("TotalCurrentCapital")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("decimal(38,19)")
-                        .HasDefaultValue(0m);
-
-                    b.Property<decimal>("TotalCurrentMargin")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("decimal(38,19)")
-                        .HasDefaultValue(0m);
+                    b.Property<int>("PromoCodeId")
+                        .HasColumnType("int");
 
                     b.Property<int>("WalletId")
                         .HasColumnType("int");
 
                     b.HasKey("Id")
-                        .HasName("WalletStatisticId");
+                        .HasName("WalletsPromoCodesId");
 
-                    b.HasIndex("WalletId")
-                        .IsUnique();
+                    b.HasIndex("PromoCodeId");
 
-                    b.ToTable("WalletStatistic");
+                    b.HasIndex("WalletId");
+
+                    b.ToTable("WalletsPromoCodes");
                 });
 
-            modelBuilder.Entity("MyExchange.Domain.Entities.BankCard", b =>
+            modelBuilder.Entity("MyExchange.Data.Entities.BankCard", b =>
                 {
-                    b.HasOne("MyExchange.Domain.Entities.User", "User")
+                    b.HasOne("MyExchange.Data.Entities.Bank", "Bank")
                         .WithMany("BankCards")
+                        .HasForeignKey("BankId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MyExchange.Data.Entities.Wallet", "Wallet")
+                        .WithMany("BankCards")
+                        .HasForeignKey("WalletId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Bank");
+
+                    b.Navigation("Wallet");
+                });
+
+            modelBuilder.Entity("MyExchange.Data.Entities.PromoCode", b =>
+                {
+                    b.HasOne("MyExchange.Data.Entities.Currency", "Currency")
+                        .WithMany("PromoCodes")
+                        .HasForeignKey("CurrencyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Currency");
+                });
+
+            modelBuilder.Entity("MyExchange.Data.Entities.Wallet", b =>
+                {
+                    b.HasOne("MyExchange.Data.Entities.User", "User")
+                        .WithMany("Wallets")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -264,37 +308,15 @@ namespace MyExchange.Data.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("MyExchange.Domain.Entities.Wallet", b =>
+            modelBuilder.Entity("MyExchange.Data.Entities.WalletPosition", b =>
                 {
-                    b.HasOne("MyExchange.Domain.Entities.User", "User")
-                        .WithOne("Wallet")
-                        .HasForeignKey("MyExchange.Domain.Entities.Wallet", "UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("MyExchange.Domain.Entities.WalletBalance", b =>
-                {
-                    b.HasOne("MyExchange.Domain.Entities.Wallet", "Wallet")
-                        .WithOne("WalletBalance")
-                        .HasForeignKey("MyExchange.Domain.Entities.WalletBalance", "WalletId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Wallet");
-                });
-
-            modelBuilder.Entity("MyExchange.Domain.Entities.WalletPosition", b =>
-                {
-                    b.HasOne("MyExchange.Domain.Entities.Currency", "Currency")
+                    b.HasOne("MyExchange.Data.Entities.Currency", "Currency")
                         .WithMany("WalletPositions")
                         .HasForeignKey("CurrencyId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("MyExchange.Domain.Entities.Wallet", "Wallet")
+                    b.HasOne("MyExchange.Data.Entities.Wallet", "Wallet")
                         .WithMany("WalletPositions")
                         .HasForeignKey("WalletId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -305,39 +327,54 @@ namespace MyExchange.Data.Migrations
                     b.Navigation("Wallet");
                 });
 
-            modelBuilder.Entity("MyExchange.Domain.Entities.WalletStatistic", b =>
+            modelBuilder.Entity("MyExchange.Data.Entities.WalletsPromoCodes", b =>
                 {
-                    b.HasOne("MyExchange.Domain.Entities.Wallet", "Wallet")
-                        .WithOne("WalletStatistic")
-                        .HasForeignKey("MyExchange.Domain.Entities.WalletStatistic", "WalletId")
+                    b.HasOne("MyExchange.Data.Entities.PromoCode", "PromoCode")
+                        .WithMany("WalletsPromoCodes")
+                        .HasForeignKey("PromoCodeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("MyExchange.Data.Entities.Wallet", "Wallet")
+                        .WithMany("WalletsPromoCodes")
+                        .HasForeignKey("WalletId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("PromoCode");
 
                     b.Navigation("Wallet");
                 });
 
-            modelBuilder.Entity("MyExchange.Domain.Entities.Currency", b =>
+            modelBuilder.Entity("MyExchange.Data.Entities.Bank", b =>
                 {
+                    b.Navigation("BankCards");
+                });
+
+            modelBuilder.Entity("MyExchange.Data.Entities.Currency", b =>
+                {
+                    b.Navigation("PromoCodes");
+
                     b.Navigation("WalletPositions");
                 });
 
-            modelBuilder.Entity("MyExchange.Domain.Entities.User", b =>
+            modelBuilder.Entity("MyExchange.Data.Entities.PromoCode", b =>
+                {
+                    b.Navigation("WalletsPromoCodes");
+                });
+
+            modelBuilder.Entity("MyExchange.Data.Entities.User", b =>
+                {
+                    b.Navigation("Wallets");
+                });
+
+            modelBuilder.Entity("MyExchange.Data.Entities.Wallet", b =>
                 {
                     b.Navigation("BankCards");
 
-                    b.Navigation("Wallet")
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("MyExchange.Domain.Entities.Wallet", b =>
-                {
-                    b.Navigation("WalletBalance")
-                        .IsRequired();
-
                     b.Navigation("WalletPositions");
 
-                    b.Navigation("WalletStatistic")
-                        .IsRequired();
+                    b.Navigation("WalletsPromoCodes");
                 });
 #pragma warning restore 612, 618
         }

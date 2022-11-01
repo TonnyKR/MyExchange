@@ -6,8 +6,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using MyExchange.Data;
+using MyExchange.Data.Entities;
 using MyExchange.Data.Interfaces;
-using MyExchange.Domain.Entities;
 
 namespace MyExchange.Data.Repository
 {
@@ -29,7 +29,7 @@ namespace MyExchange.Data.Repository
 
         public async Task<TEntity> GetById<TEntity>(int id) where TEntity : BaseEntity
         {
-            return await myExchangeDbContext.FindAsync<TEntity>(id);
+            return await myExchangeDbContext.Set<TEntity>().FirstOrDefaultAsync(e => e.Id == id);
         }
 
         //public async Task<TEntity> GetByIdWithInclude<TEntity>(int id, params Expression<Func<TEntity, object>>[] includeProperties) where TEntity : BaseEntity
@@ -52,7 +52,7 @@ namespace MyExchange.Data.Repository
 
         public async Task<TEntity> Delete<TEntity>(int id) where TEntity : BaseEntity
         {
-            var entity = await myExchangeDbContext.Set<TEntity>().FindAsync(id);
+            var entity = await myExchangeDbContext.Set<TEntity>().FirstOrDefaultAsync(e => e.Id == id);
             if (entity == null)
             {
                 throw new ArgumentNullException(); //ValidationException($"Object of type {typeof(TEntity)} with id { id } not found");

@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore.Metadata;
-using MyExchange.Domain.Entities;
+using MyExchange.Data.Entities;
 using MyExchange.Data.Configurations;
 
 namespace MyExchange.Data
@@ -23,12 +23,13 @@ namespace MyExchange.Data
         {
         }
 
+        public virtual DbSet<Bank> Bank { get; set; } = null!;
         public virtual DbSet<BankCard> BankCards { get; set; } = null!;
         public virtual DbSet<Currency> Currencies { get; set; } = null!;
         public virtual DbSet<User> Users { get; set; } = null!;
         public virtual DbSet<Wallet> Wallets { get; set; } = null!;
         public virtual DbSet<WalletPosition> WalletPositions { get; set; } = null!;
-        public virtual DbSet<WalletBalance> WalletBalance { get; set; } = null!;
+        public virtual DbSet<WalletsPromoCodes> WalletsPromoCodes { get; set; } = null!;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

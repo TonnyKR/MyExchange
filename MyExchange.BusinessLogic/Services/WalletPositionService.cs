@@ -2,7 +2,7 @@
 using MyExchange.BusinessLogic.Interfaces;
 using MyExchange.Common.Dtos.WalletPosition;
 using MyExchange.Data.Interfaces;
-using MyExchange.Domain.Entities;
+using MyExchange.Data.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;

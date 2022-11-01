@@ -2,7 +2,7 @@
 using MyExchange.BusinessLogic.Interfaces;
 using MyExchange.Common.Dtos.User;
 using MyExchange.Data.Interfaces;
-using MyExchange.Domain.Entities;
+using MyExchange.Data.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,14 +23,11 @@ namespace MyExchange.BusinessLogic.Services
         public async Task<UserDto> CreateUser(UserDto userDto)
         {
             var user = _mapper.Map<User>(userDto);
-
-            user.Wallet = new Wallet { User = user,WalletBalance = new WalletBalance() , WalletStatistic = new WalletStatistic() };
             _repository.Add(user);
             await _repository.SaveChangesAsync();
 
-            var _userDto = _mapper.Map<UserDto>(user);
-
-            return _userDto;
+            var returnDto = _mapper.Map<UserDto>(user);
+            return returnDto;
         }
 
         public async Task DeleteUser(int id)
@@ -56,7 +53,8 @@ namespace MyExchange.BusinessLogic.Services
         public async Task UpdateUser(int id, UserUpdateDto userDto)
         {
             var user = await _repository.GetById<User>(id);
-            _mapper.Map<UserUpdateDto>(user);
+            user = _mapper.Map(userDto, user);
+
             await _repository.SaveChangesAsync();
         }
     }

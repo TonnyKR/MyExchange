@@ -30,8 +30,13 @@ namespace MyExchange.API
 
             services.AddScoped<IRepository, EFCoreRepository>();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IWalletService, WalletService>();
             services.AddScoped<IWalletPositionService, WalletPositionService>();
-            services.AddScoped<IWalletBalanceService, WalletBalanceService>();
+            services.AddScoped<ICurrencyService, CurrencyService>();
+            services.AddScoped<IPromoCode, PromoCodeService>();
+            services.AddScoped<IBankCardService, BankCardService>();
+            services.AddScoped<IBankService, BankService>();
+
 
             services.AddEndpointsApiExplorer();
             services.AddAutoMapper(typeof(BuisnessLogicAssemblyMarker));
