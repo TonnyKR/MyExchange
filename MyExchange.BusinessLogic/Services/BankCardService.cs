@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using MyExchange.BusinessLogic.Interfaces;
 using MyExchange.Common.Dtos.BankCard;
+using MyExchange.Common.Dtos.Currency;
 using MyExchange.Data.Entities;
 using MyExchange.Data.Interfaces;
 using System;
@@ -41,6 +42,13 @@ namespace MyExchange.BusinessLogic.Services
             var card = await _repository.GetById<BankCard>(id);
             var cardDto = _mapper.Map<BankCardDto>(card);
             return cardDto;
+        }
+
+        public async Task<IEnumerable<BankCardDto>> GetAllBankCards()
+        {
+            var cardsList = await _repository.GetAll<BankCard>();
+            var cardDtoList = _mapper.Map<List<BankCardDto>>(cardsList);
+            return cardDtoList;
         }
     }
 }

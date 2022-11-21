@@ -16,7 +16,11 @@ namespace MyExchange.BusinessLogic.Profiles
             CreateMap<Currency, CurrencyDto>();
             CreateMap<CurrencyDto, Currency>();
             CreateMap<CurrencyUpdateDto, Currency>()
-                .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null)); 
+                .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
+
+            CreateMap<decimal?, decimal>().ConvertUsing((src, dest) => src ?? dest);
+            CreateMap<int?, int>().ConvertUsing((src, dest) => src ?? dest);
+            CreateMap<long?, long>().ConvertUsing((src, dest) => src ?? dest);
         }
     }
 }

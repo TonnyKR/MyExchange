@@ -1,4 +1,3 @@
-using MyExchange.API.Infrastructure.Extensions;
 using MyExchange.API;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,14 +12,3 @@ startup.Configure(webApplication, webApplication.Environment);
 
 await webApplication.RunAsync();
 
-//TODO
-//Validation
-
-
-//Questions
-//Null reference dependant entities
-//IRepository Expression
-//Update bank card and other nonsense crud
-//Default properties
-//WalletsPromoCode interaction?
-//Controllers return

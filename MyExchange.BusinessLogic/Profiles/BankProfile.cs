@@ -15,6 +15,10 @@ namespace MyExchange.BusinessLogic.Profiles
         {
             CreateMap<Bank, BankDto>();
             CreateMap<BankDto, Bank>();
+
+            CreateMap<decimal?, decimal>().ConvertUsing((src, dest) => src ?? dest);
+            CreateMap<int?, int>().ConvertUsing((src, dest) => src ?? dest);
+            CreateMap<long?, long>().ConvertUsing((src, dest) => src ?? dest);
         }
     }
 }

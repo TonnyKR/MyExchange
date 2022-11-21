@@ -13,10 +13,12 @@ namespace MyExchange.BusinessLogic.Interfaces
     {
         Task<WalletDto> GetWallet(int id);
         Task<IEnumerable<WalletDto>> GetAllWallets();
-        Task<IEnumerable<WalletDto>> GetAllUserWallets(int id);
+        Task<IEnumerable<WalletDto>> GetAllUserWallets(string id);
 
         Task<WalletDto> CreateWallet(WalletDto walletDto);
         Task<WalletDto> CreateDefaultWallet(UserDto userDto);
+        Task ReplenisBalance(int WalletId, int BankCardId, decimal amount);
+        Task WithdrawBalance(int WalletId, int BankCardId, decimal amount);
 
         Task UpdateWallet(int id, WalletUpdateDto walletDto);
 

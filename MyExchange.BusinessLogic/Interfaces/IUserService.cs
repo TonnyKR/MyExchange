@@ -9,13 +9,13 @@ namespace MyExchange.BusinessLogic.Interfaces
 {
     public interface IUserService
     {
-        Task<UserDto> GetUser(int id);
+        Task<UserDto> GetUser(string id);
         Task<IEnumerable<UserDto>> GetAllUsers();
 
         Task<UserDto> CreateUser(UserDto userDto);
 
-        Task UpdateUser(int id, UserUpdateDto userDto);
+        Task UpdateUser(string id, UserUpdateDto userDto);
 
-        Task DeleteUser(int id);
+        Task DeleteUser(string id);
     }
 }

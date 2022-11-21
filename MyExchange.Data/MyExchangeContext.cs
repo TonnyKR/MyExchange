@@ -9,10 +9,12 @@ using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore.Metadata;
 using MyExchange.Data.Entities;
 using MyExchange.Data.Configurations;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 
 namespace MyExchange.Data
 {
-    public class MyExchangeContext : DbContext
+    public class MyExchangeContext : IdentityDbContext<User, IdentityRole, string>
     {
         public MyExchangeContext()
         {
@@ -23,20 +25,19 @@ namespace MyExchange.Data
         {
         }
 
-        public virtual DbSet<Bank> Bank { get; set; } = null!;
-        public virtual DbSet<BankCard> BankCards { get; set; } = null!;
-        public virtual DbSet<Currency> Currencies { get; set; } = null!;
-        public virtual DbSet<User> Users { get; set; } = null!;
-        public virtual DbSet<Wallet> Wallets { get; set; } = null!;
-        public virtual DbSet<WalletPosition> WalletPositions { get; set; } = null!;
-        public virtual DbSet<WalletsPromoCodes> WalletsPromoCodes { get; set; } = null!;
+        public DbSet<Bank> Bank { get; set; }
+        public DbSet<BankCard> BankCards { get; set; }
+        public DbSet<Currency> Currencies { get; set; }
+        public DbSet<User> Users { get; set; } = null!;
+        public DbSet<Wallet> Wallets { get; set; } = null!;
+        public DbSet<WalletPosition> WalletPositions { get; set; }
+        public DbSet<WalletsPromoCodes> WalletsPromoCodes { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            //???
             base.OnModelCreating(modelBuilder);
 
-            var assembly = typeof(CurrencyConfiguration).Assembly;
+            var assembly = typeof(ConfigurationsAssemblyMarker).Assembly;
             modelBuilder.ApplyConfigurationsFromAssembly(assembly);
         }
     }

@@ -10,10 +10,9 @@ namespace MyExchange.BusinessLogic.Interfaces
     public interface IBankCardService
     {
         Task<BankCardDto> GetBankCard(int id);
+        Task<IEnumerable<BankCardDto>> GetAllBankCards();
 
         Task<BankCardDto> CreateBankCard(BankCardDto bankCardDto);
-
-        //Task UpdateBankCard(int id, BankCardDto bankCardDto);
 
         Task DeleteBankCard(int id);
     }

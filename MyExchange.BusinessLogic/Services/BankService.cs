@@ -36,6 +36,13 @@ namespace MyExchange.BusinessLogic.Services
             await _repository.SaveChangesAsync();
         }
 
+        public async Task<IEnumerable<BankDto>> GetAllBanks()
+        {
+            var banks = await _repository.GetAll<Bank>();
+            var banksDto = _mapper.Map<IEnumerable<BankDto>>(banks);
+            return banksDto;
+        }
+
         public async Task<BankDto> GetBank(int id)
         {
             var bank = await _repository.GetById<Bank>(id);

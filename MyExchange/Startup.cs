@@ -1,10 +1,16 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using MyExchange.BusinessLogic;
 using MyExchange.BusinessLogic.Interfaces;
 using MyExchange.BusinessLogic.Services;
 using MyExchange.Data;
+using MyExchange.Data.Entities;
 using MyExchange.Data.Interfaces;
 using MyExchange.Data.Repository;
+using System.Text;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using OnlineBookShop.API.Infrastructure.Extensions;
 
 namespace MyExchange.API
 {
@@ -17,7 +23,6 @@ namespace MyExchange.API
 
         public IConfiguration Configuration { get; }
 
-        // Use this method to add services to the container.
 
         public void AddServices(IServiceCollection services)
         {
@@ -26,9 +31,56 @@ namespace MyExchange.API
                 optionBuilder.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
             });
 
+            services.AddIdentity<User, IdentityRole>().AddEntityFrameworkStores<MyExchangeContext>().AddDefaultTokenProviders();;
+            services.Configure<IdentityOptions>(options =>
+            {
+                // Password settings.
+                options.Password.RequireDigit = false;
+                options.Password.RequireLowercase = true;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = true;
+                options.Password.RequiredLength = 5;
+                options.Password.RequiredUniqueChars = 0;
+
+                // Lockout settings.
+                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
+                options.Lockout.MaxFailedAccessAttempts = 5;
+                options.Lockout.AllowedForNewUsers = true;
+
+                // User settings.
+                options.User.AllowedUserNameCharacters =
+                "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
+                options.User.RequireUniqueEmail = false;
+            });
+
+            // Adding Authentication
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+
+            // Adding Jwt Bearer
+            .AddJwtBearer(options =>
+            {
+                options.SaveToken = true;
+                options.RequireHttpsMetadata = false;
+                options.TokenValidationParameters = new TokenValidationParameters()
+                {
+                    ValidateIssuer = false,
+                    ValidateAudience = false,
+                    //ValidAudience = configuration["JWT:ValidAudience"],
+                    //ValidIssuer = configuration["JWT:ValidIssuer"],
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["JWT:Secret"]))
+                };
+            });
+
+
             services.AddControllers();
 
             services.AddScoped<IRepository, EFCoreRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IWalletService, WalletService>();
             services.AddScoped<IWalletPositionService, WalletPositionService>();
@@ -36,6 +88,7 @@ namespace MyExchange.API
             services.AddScoped<IPromoCode, PromoCodeService>();
             services.AddScoped<IBankCardService, BankCardService>();
             services.AddScoped<IBankService, BankService>();
+
 
 
             services.AddEndpointsApiExplorer();
@@ -51,11 +104,16 @@ namespace MyExchange.API
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+            app.UseExceptionHandling();
+
             app.UseRouting();
 
             app.UseHttpsRedirection();
 
+            app.UseAuthentication();
             app.UseAuthorization();
+
+            app.UseDbTransaction();
 
             app.UseEndpoints(endpoints =>
             {

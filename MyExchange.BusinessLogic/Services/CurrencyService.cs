@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MyExchange.Common.Dtos.WalletPosition;
 
 namespace MyExchange.BusinessLogic.Services
 {
@@ -15,15 +16,17 @@ namespace MyExchange.BusinessLogic.Services
     {
         private readonly IRepository _repository;
         private readonly IMapper _mapper;
-        public CurrencyService(IRepository repository, IMapper mapper)
+        private readonly IWalletPositionService _walletPositionService;
+        public CurrencyService(IRepository repository, IMapper mapper, IWalletPositionService walletPositionService)
         {
             _repository = repository;
             _mapper = mapper;
+            _walletPositionService = walletPositionService;
         }
         public async Task<CurrencyDto> CreateCurrency(CurrencyDto currencyDto)
         {
             var currency = _mapper.Map<Currency>(currencyDto);
-
+            
             _repository.Add(currency);
             await _repository.SaveChangesAsync();
 
@@ -55,8 +58,18 @@ namespace MyExchange.BusinessLogic.Services
         public async Task UpdateCurrency(int id, CurrencyUpdateDto currencyUpdateDto)
         {
             var currency = await _repository.GetById<Currency>(id);
-            _mapper.Map(currencyUpdateDto, currency);
-            await _repository.SaveChangesAsync();
+            
+            if (currencyUpdateDto.PriceUsd != null && currencyUpdateDto.PriceUsd != currency.PriceUsd)
+            {
+                _mapper.Map(currencyUpdateDto, currency);
+                await _repository.SaveChangesAsync();
+                await _walletPositionService.UpdateCurrentMargin(id);
+            }
+            else
+            {
+                _mapper.Map(currencyUpdateDto, currency);
+                await _repository.SaveChangesAsync();
+            }
         }
     }
 }

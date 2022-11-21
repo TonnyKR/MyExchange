@@ -12,6 +12,7 @@ namespace MyExchange.BusinessLogic.Interfaces
         Task<BankDto> GetBank(int id);
 
         Task<BankDto> CreateBank(BankDto bankDto);
+        Task<IEnumerable<BankDto>> GetAllBanks();
 
         Task DeleteBank(int id);
     }

@@ -11,12 +11,11 @@ namespace MyExchange.Data.Entities
     {
         public WalletType WalletType { get; set; }
         public decimal Balance { get; set; }
-        public decimal TotalCurrentCapital { get; set; }
         public decimal TotalEnrolment { get; set; }
         public decimal TotalWithdrawl { get; set; }
         public decimal TotalCurrentMargin { get; set; }
-        public decimal TotalClosedMargin { get; set; }
-        public int UserId { get; set; }
+        public decimal TotalPositionsCost { get; set; }
+        public string UserId { get; set; }
         public User User { get; set; }
         public ICollection<WalletPosition> WalletPositions { get; set; }
         public ICollection<WalletsPromoCodes> WalletsPromoCodes { get; set;}

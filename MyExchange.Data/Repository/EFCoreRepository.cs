@@ -14,15 +14,13 @@ namespace MyExchange.Data.Repository
     public class EFCoreRepository : IRepository
     {
         private readonly MyExchangeContext myExchangeDbContext;
-        //private readonly IMapper _mapper;
 
-        public EFCoreRepository(MyExchangeContext onlineBookShopDbContext/*,IMapper mapper*/)
+        public EFCoreRepository(MyExchangeContext DbContext)
         {
-            myExchangeDbContext = onlineBookShopDbContext;
-            //_mapper = mapper;
+            myExchangeDbContext = DbContext;
         }
 
-        public async Task<List<TEntity>> GetAll<TEntity>() where TEntity : BaseEntity
+        public async Task<IEnumerable<TEntity>> GetAll<TEntity>() where TEntity : BaseEntity
         {
             return await myExchangeDbContext.Set<TEntity>().ToListAsync();
         }
@@ -31,12 +29,6 @@ namespace MyExchange.Data.Repository
         {
             return await myExchangeDbContext.Set<TEntity>().FirstOrDefaultAsync(e => e.Id == id);
         }
-
-        //public async Task<TEntity> GetByIdWithInclude<TEntity>(int id, params Expression<Func<TEntity, object>>[] includeProperties) where TEntity : BaseEntity
-        //{
-        //    var query = IncludeProperties(includeProperties);
-        //    return await query.FirstOrDefaultAsync(entity => entity.Id == id);
-        //}
 
         public async Task SaveChangesAsync()
         {
@@ -67,16 +59,6 @@ namespace MyExchange.Data.Repository
         //                                                                                            where TDto : class
         //{
         //    return await myExchangeDbContext.Set<TEntity>().CreatePaginatedResultAsync<TEntity, TDto>(pagedRequest, _mapper);
-        //}
-
-        //private IQueryable<TEntity> IncludeProperties<TEntity>(params Expression<Func<TEntity, object>>[] includeProperties) where TEntity : BaseEntity
-        //{
-        //    IQueryable<TEntity> entities = myExchangeDbContext.Set<TEntity>();
-        //    foreach (var includeProperty in includeProperties)
-        //    {
-        //        entities = entities.Include(includeProperty);
-        //    }
-        //    return entities;
         //}
     }
 }
